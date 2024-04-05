@@ -1,7 +1,6 @@
 /* Your Code Here */
-function createEmployeeRecord(array){
-    let record;
-    return record = {
+let createEmployeeRecord = function(array){
+    return {
         firstName: array[0],
         familyName: array[1],
         title: array[2],
@@ -9,71 +8,67 @@ function createEmployeeRecord(array){
         timeInEvents: [],
         timeOutEvents: []
     }
-}
-function createEmployeeRecords(arrays){
-    return arrays.map(createEmployeeRecord)
-}
-// function createDSObj(getType, dateStamp) {
-//     return {type: getType, date: dateStamp.slice(0,10), hour: parseInt(dateStamp.slice(-4))}
-// }
-
-// function createTimeInEvent(dateStamp){
-//     obj.timeInEvents.push(createDSObj("TimeIn", dateStamp))
-//     return obj
-// }
-// function createTimeOutEvent(dateStamp){
-//     obj.timeOutEvents.push(createDSObj("TimeOut", dateStamp))
-//     return obj
-// }
-function hoursWorkedOnDate(obj, dateYMD){
-    const timeIn = obj.timeInEvents.find((e) => e.date === dateYMD).hour
-    const timeOut = obj.timeOutEvents.find((e) => e.date === dateYMD).hour
-    return (timeOut - timeIn)/100
-}
-function wagesEarnedOnDate(obj, dateYMD){
-    const wage = obj.payPerHour
-    const hoursWorked = hoursWorkedOnDate(obj, dateYMD)
-    return wage * hoursWorked
-}
-function calculatePayroll(records){
-    const allPay = (records.map((empl) => {return allWagesFor(empl)}))
-    return allPay.reduce((acc, cv) => acc + cv)
-}
-
-function findEmployeeByFirstName(srcArray, first_Name){
-    return srcArray.find((record) => record.firstName === first_Name)
-}
-
-
-let rRecord = createEmployeeRecord(["Rafiki", "", "Aide", 10])
-        let sRecord = createEmployeeRecord(["Simba", "", "King", 100])
-
-        let sTimeData = [
-          ["2019-01-01 0900", "2019-01-01 1300"], // 4 * 100 = 400
-          ["2019-01-02 1000", "2019-01-02 1300"]  // 3 * 100 = 300 ===> 700 total
-        ]
-
-        let rTimeData = [
-          ["2019-01-11 0900", "2019-01-11 1300"], // 4 * 10 = 40
-          ["2019-01-12 1000", "2019-01-12 1300"]  // 3 * 10 = 40 ===> 70 total ||=> 770
-        ]
-
-        sTimeData.forEach(function (d) {
-          let [dIn, dOut] = d
-          sRecord = createTimeInEvent(sRecord, dIn)
-          sRecord = createTimeOutEvent(sRecord, dOut)
-        })
-
-        rTimeData.forEach(function (d) {
-          let [dIn, dOut] = d
-          rRecord = createTimeInEvent(rRecord, dIn)
-          rRecord = createTimeOutEvent(rRecord, dOut)
-        })
-
-        let employees = [sRecord, rRecord]
-
-        calculatePayroll(employees)
-
+  }
+  
+  let createEmployeeRecords = function(employeeRowData) {
+    return employeeRowData.map(function(array){
+        return createEmployeeRecord(array)
+    })
+  }
+  
+  let createTimeInEvent = function(dateStamp){
+    let [date, hour] = dateStamp.split(' ')
+  
+    this.timeInEvents.push({
+        type: "TimeIn",
+        hour: parseInt(hour, 10),
+        date,
+    })
+  
+    return this
+  }
+  
+  let createTimeOutEvent = function(dateStamp){
+    let [date, hour] = dateStamp.split(' ')
+  
+    this.timeOutEvents.push({
+        type: "TimeOut",
+        hour: parseInt(hour, 10),
+        date,
+    })
+  
+    return this
+  }
+  
+  let hoursWorkedOnDate = function(soughtDate){
+    let inEvent = this.timeInEvents.find(function(e){
+        return e.date === soughtDate
+    })
+  
+    let outEvent = this.timeOutEvents.find(function(e){
+        return e.date === soughtDate
+    })
+  
+    return (outEvent.hour - inEvent.hour) / 100
+  }
+  
+  let wagesEarnedOnDate = function(dateSought){
+    let rawWage = hoursWorkedOnDate.call(this, dateSought)
+        * this.payPerHour
+    return parseFloat(rawWage.toString())
+  }
+  
+  let findEmployeeByFirstName = function(srcArray, firstName) {
+  return srcArray.find(function(rec){
+    return rec.firstName === firstName
+  })
+  }
+  
+  let calculatePayroll = function(arrayOfEmployeeRecords){
+    return arrayOfEmployeeRecords.reduce(function(memo, rec){
+        return memo + allWagesFor.call(rec)
+    }, 0)
+  }
 /*
  We're giving you this function. Take a look at it, you might see some usage
  that's new and different. That's because we're avoiding a well-known, but
