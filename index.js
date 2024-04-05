@@ -13,18 +13,18 @@ function createEmployeeRecord(array){
 function createEmployeeRecords(arrays){
     return arrays.map(createEmployeeRecord)
 }
-function createDSObj(getType, dateStamp) {
-    return {type: getType, date: dateStamp.slice(0,10), hour: parseInt(dateStamp.slice(-4))}
-}
+// function createDSObj(getType, dateStamp) {
+//     return {type: getType, date: dateStamp.slice(0,10), hour: parseInt(dateStamp.slice(-4))}
+// }
 
-function createTimeInEvent(dateStamp){
-    obj.timeInEvents.push(createDSObj("TimeIn", dateStamp))
-    return obj
-}
-function createTimeOutEvent(dateStamp){
-    obj.timeOutEvents.push(createDSObj("TimeOut", dateStamp))
-    return obj
-}
+// function createTimeInEvent(dateStamp){
+//     obj.timeInEvents.push(createDSObj("TimeIn", dateStamp))
+//     return obj
+// }
+// function createTimeOutEvent(dateStamp){
+//     obj.timeOutEvents.push(createDSObj("TimeOut", dateStamp))
+//     return obj
+// }
 function hoursWorkedOnDate(obj, dateYMD){
     const timeIn = obj.timeInEvents.find((e) => e.date === dateYMD).hour
     const timeOut = obj.timeOutEvents.find((e) => e.date === dateYMD).hour
